@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AppMobileComputing</string>
+    <string name="title_home">Home</string>
+    <string name="title_bluetooth">Bluetooth Devices</string>
+    <string name="title_orarilezioni">Orari Lezioni</string>
+    <string name="dati_orarilezioni">dati_orarilezioni</string>
+</resources>

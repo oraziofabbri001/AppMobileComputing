@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.orarilezioni.OrariLezioniFragment">
+
+    <Button
+        android:id="@+id/button_load_dati_orarilezioni"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@color/teal_700"
+        android:backgroundTintMode="add"
+        android:text="Sincronizza dati"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textColorLink="@color/teal_200"
+        android:textSize="11.5sp"
+        app:backgroundTint="@color/teal_700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.000" />
+
+    <TextView
+        android:id="@+id/text_orarilezioni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
+
+    <ExpandableListView
+        android:id="@+id/expendableList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/black"
+        android:dividerHeight="1dp"
+        android:groupIndicator="@drawable/group_indicator"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/button_load_dati_orarilezioni"
+        app:layout_constraintVertical_bias="0.2" />
+<!--android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"-->
+<!--android:groupIndicator="@drawable/group_indicator"-->
+</androidx.constraintlayout.widget.ConstraintLayout>

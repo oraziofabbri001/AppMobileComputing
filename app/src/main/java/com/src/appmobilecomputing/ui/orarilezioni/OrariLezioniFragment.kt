@@ -30,7 +30,7 @@ import java.net.URL
 
 class OrariLezioniFragment : Fragment() {
 
-    private var _binding: FragmentOrarilezioniBinding? = null //ciao
+    private var _binding: FragmentOrarilezioniBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.

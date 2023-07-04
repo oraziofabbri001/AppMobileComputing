@@ -63,11 +63,12 @@ class OrariLezioniFragment : Fragment() {
         }
 
         //Inizio
-        sharedPreferences = this.requireActivity().getSharedPreferences("my_sharedPreferences",MODE_PRIVATE);
+        sharedPreferences = this.requireActivity().getSharedPreferences("orariolezioni_sharedPreferences",MODE_PRIVATE);
         //println("Inizio lettura orari");
         //println("dati_orarilezioni = "+Resources.getSystem().getString(com.src.appmobilecomputing.R.string.dati_orarilezioni));
-        //val sharedPreferences: SharedPreferences = this.requireActivity().getSharedPreferences("my_sharedPreferences",MODE_PRIVATE);
-        sharedPreferences!!.edit().clear().commit();
+        //val sharedPreferences: SharedPreferences = this.requireActivity().getSharedPreferences("orariolezioni_sharedPreferences",MODE_PRIVATE);
+        //Da scommentare se si vuolo che ad ogni avvio Fragment venga azzerata la base dati locale sulle SharedPreferences
+        //sharedPreferences!!.edit().clear().commit();
         dati_orarilezioni = sharedPreferences!!.getString("dati_orarilezioni","").toString();
         //Il dato non è stato salvato nel database locale quindi imposto un dato standard
         if (dati_orarilezioni?.length!!<=0) {

@@ -53,6 +53,7 @@ class HomeFragment : Fragment(),LocationListener {
 
     private fun automatizeLocation(operator: String) {
         //binding.textHome.text = "Caricamento in corso....attendere";
+        Toast.makeText(context, "Inizio ricerca coordinate GPS", Toast.LENGTH_SHORT).show();
         binding.LatitudineValue.text = "xxx.xxx";
         binding.LongitudineValue.text = "xxx.xxx";
         if (

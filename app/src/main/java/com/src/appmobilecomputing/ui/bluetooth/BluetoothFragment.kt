@@ -161,6 +161,7 @@ class BluetoothFragment : Fragment() {
                         Toast.makeText(context, "Errore Bluetooth non attivato, attivare Bluetooth", Toast.LENGTH_SHORT).show();
                     }
                     else {
+                        Toast.makeText(context, "Inizio ricerca dispositivi Bluetooth", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(context, "Bluetooth list inizio", Toast.LENGTH_SHORT).show();
                         bluetoothDevices.clear();
                         //Ricerca tutti i devic che sono stati agganciati precedentemente

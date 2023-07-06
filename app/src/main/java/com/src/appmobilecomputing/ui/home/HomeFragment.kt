@@ -46,14 +46,13 @@ class HomeFragment : Fragment(),LocationListener {
             automatizeLocation("2");
         }
 
-        automatizeLocation("1");
+        //automatizeLocation("1");
 
         return root;
     }
 
     private fun automatizeLocation(operator: String) {
         //binding.textHome.text = "Caricamento in corso....attendere";
-        Toast.makeText(context, "Inizio ricerca coordinate GPS", Toast.LENGTH_SHORT).show();
         binding.LatitudineValue.text = "xxx.xxx";
         binding.LongitudineValue.text = "xxx.xxx";
         if (
@@ -75,6 +74,7 @@ class HomeFragment : Fragment(),LocationListener {
             Toast.makeText(context, "Errore permessi accesso GPS", Toast.LENGTH_SHORT).show();
         }
         else {
+            //if (locationManager!=null) { locationManager.removeUpdates(this); }
             locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager;
             if ( !locationManager!!.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                 dialogBuilder!!.setMessage("Errore GPS, attivare il segnale")
@@ -87,6 +87,7 @@ class HomeFragment : Fragment(),LocationListener {
                 binding.LongitudineValue.text = "";
             }
             else {
+                Toast.makeText(context, "Inizio ricerca coordinate GPS", Toast.LENGTH_SHORT).show();
                 //if (operator.equals("1")) {
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
@@ -114,12 +115,13 @@ class HomeFragment : Fragment(),LocationListener {
     }
     override fun onPause() {
         super.onPause();
-        System.out.println("onPause() HomeFragment()");
+        //System.out.println("onPause() HomeFragment()");
         locationManager.removeUpdates(this);
     }
     override fun onResume() {
         super.onResume();
-        System.out.println("onResume() HomeFragment()");
+        //System.out.println("onResume() HomeFragment()");
+        //Toast.makeText(context, "onResume", Toast.LENGTH_SHORT).show();
         automatizeLocation("1");
     }
     override fun onLocationChanged(location: Location) {

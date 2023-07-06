@@ -274,6 +274,7 @@ class OrariLezioniFragment : Fragment() {
                 Toast.makeText(context, "Errore Connessione non attiva, attivare connessione", Toast.LENGTH_SHORT).show();
             }
             else {
+                Toast.makeText(context, "Inizio collegamento con il Server", Toast.LENGTH_SHORT).show();
                 //binding.textHome.text = "Caricamento in corso....attendere";
                 binding.buttonLoadDatiOrarilezioni.text = "Attendere...";
                 dati_orarilezioni = URL("https://uniparthenope.piattaformasicura.com/test1.php").readText();

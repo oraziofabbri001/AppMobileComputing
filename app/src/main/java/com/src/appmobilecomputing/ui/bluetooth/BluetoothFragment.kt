@@ -143,9 +143,9 @@ class BluetoothFragment : Fragment() {
                     ),
                     PackageManager.PERMISSION_GRANTED
                 );
-                Toast.makeText(context, "Errore permessi", Toast.LENGTH_SHORT).show();
-                bluetoothDevices.add("Paired:test1");
-                bluetoothDevices.add("Paired:test2");
+                Toast.makeText(context, "Errore permessi accesso bluetooth", Toast.LENGTH_SHORT).show();
+                //bluetoothDevices.add("Paired:test1");
+                //bluetoothDevices.add("Paired:test2");
                 bluetoothArrayAdapter.notifyDataSetChanged();
             }
             else {
@@ -158,7 +158,7 @@ class BluetoothFragment : Fragment() {
                     //Toast.makeText(context, "Bluetooth, supportato", Toast.LENGTH_SHORT).show();
                     if (bluetoothAdapter?.isEnabled == false) {
                         //startForResult?.launch(Intent(requireActivity(), MainActivity::class.java));
-                        Toast.makeText(context, "Errore Bluetooth, non attivato", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Errore Bluetooth non attivato, attivare Bluetooth", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         //Toast.makeText(context, "Bluetooth list inizio", Toast.LENGTH_SHORT).show();

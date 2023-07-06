@@ -1,6 +1,8 @@
 package com.src.appmobilecomputing.ui.orarilezioni
 
 import android.app.AlertDialog
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
@@ -8,6 +10,9 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -96,20 +101,13 @@ class OrariLezioniFragment : Fragment() {
 
         return root;
     }
+
     private fun setDataInSharedPreferences(name:String,data:String) {
         var editorPreferences = sharedPreferences!!.edit();
         editorPreferences.putString(name,data);
         editorPreferences.commit();
     }
-    private fun syncronizeData() {
-        //binding.textHome.text = "Caricamento in corso....attendere";
-        binding.buttonLoadDatiOrarilezioni.text = "Attendere...";
-        dati_orarilezioni = URL("https://uniparthenope.piattaformasicura.com/test1.php").readText();
-        dati_orarilezioni=dati_orarilezioni.replace("\n","");
-        setDataInSharedPreferences("dati_orarilezioni",dati_orarilezioni);
-        reloadDataOnList();
-        binding.buttonLoadDatiOrarilezioni.text = "Sincronizza dati";
-    }
+
     private fun reloadDataOnList() {
         dati_orarilezioni = sharedPreferences!!.getString("dati_orarilezioni","").toString();
         val category = ArrayList<String>();
@@ -246,6 +244,44 @@ class OrariLezioniFragment : Fragment() {
                 ).show()
                 false
             }*/
+        }
+    }
+
+    private fun syncronizeData() {
+        if (
+            ContextCompat.checkSelfPermission( requireActivity(), android.Manifest.permission.INTERNET) !=
+            PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission( requireActivity(), android.Manifest.permission.ACCESS_NETWORK_STATE ) !=
+            PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission( requireActivity(), android.Manifest.permission.ACCESS_WIFI_STATE) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf<String>(
+                    android.Manifest.permission.INTERNET,
+                    android.Manifest.permission.ACCESS_NETWORK_STATE,
+                    android.Manifest.permission.ACCESS_WIFI_STATE
+                ),
+                PackageManager.PERMISSION_GRANTED
+            );
+            Toast.makeText(context, "Errore permessi accesso rete", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            val connectivityManager = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager;
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork);
+            if (networkCapabilities == null) {
+                Toast.makeText(context, "Errore Connessione non attiva, attivare connessione", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                //binding.textHome.text = "Caricamento in corso....attendere";
+                binding.buttonLoadDatiOrarilezioni.text = "Attendere...";
+                dati_orarilezioni = URL("https://uniparthenope.piattaformasicura.com/test1.php").readText();
+                dati_orarilezioni = dati_orarilezioni.replace("\n", "");
+                setDataInSharedPreferences("dati_orarilezioni", dati_orarilezioni);
+                reloadDataOnList();
+                binding.buttonLoadDatiOrarilezioni.text = "Sincronizza dati";
+            }
         }
     }
 }

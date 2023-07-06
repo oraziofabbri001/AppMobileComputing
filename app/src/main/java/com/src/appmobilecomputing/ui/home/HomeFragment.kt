@@ -71,6 +71,7 @@ class HomeFragment : Fragment(),LocationListener {
             );
             binding.LatitudineValue.text = "";
             binding.LongitudineValue.text = "";
+            Toast.makeText(context, "Errore permessi accesso GPS", Toast.LENGTH_SHORT).show();
         }
         else {
             locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager;

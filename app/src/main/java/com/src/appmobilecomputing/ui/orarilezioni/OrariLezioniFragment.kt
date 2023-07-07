@@ -77,7 +77,7 @@ class OrariLezioniFragment : Fragment() {
         dati_orarilezioni = sharedPreferences!!.getString("dati_orarilezioni","").toString();
         //Il dato non è stato salvato nel database locale quindi imposto un dato standard
         if (dati_orarilezioni?.length!!<=0) {
-            Toast.makeText(context, "dati_orarilezioni vuoto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "dati_orarilezioni vuoto, caricamento dati locali", Toast.LENGTH_SHORT).show();
             dati_orarilezioni = "{\"categorie\":[{\"id\":\"0\",\"nome\":\"Corsi di Laurea Triennale\\/Magistrale Ciclo Unico\",\"sottocategorie\":[{\"id\":\"2\",\"descrizione\":\"Il Corso intende fornire agli studenti una formazione moderna e competitiva in Management e Accounting. I laureati in Economia Aziendale saranno in grado di comprendere il funzionamento delle imprese e dei sistemi economici odierni, avendo la giusta preparazione per affrontare le principali sfide delle diverse aree aziendali.\",\"nome\":\"Economia Aziendale\",\"giorni\":[{\"giorno\":\"Luned\\u00ec\",\"orari\":[{\"orario\":\"09:00-11:00\",\"contenuto\":\"Materia 1\"},{\"orario\":\"11:00-13:00\",\"contenuto\":\"Materia 2\"},{\"orario\":\"14:00-16:00\",\"contenuto\":\"Materia 3\"},{\"orario\":\"16:00-18:00\",\"contenuto\":\"Materia 4\"}]},{\"giorno\":\"Marted\\u00ec\",\"orari\":[{\"orario\":\"09:00-11:00\",\"contenuto\":\"Materia 5\"},{\"orario\":\"11:00-13:00\",\"contenuto\":\"Materia 6\"},{\"orario\":\"14:00-16:00\",\"contenuto\":\"Materia 7\"},{\"orario\":\"16:00-18:00\",\"contenuto\":\"Materia 8\"}]}]},{\"id\":\"3\",\"descrizione\":\"Il Corso di Laurea in Ingegneria e Scienze Informatiche per la Cybersecurity nasce col preciso intento di fornire una risposta concreta allo \\u201cskills shortage\\u201d nel campo della sicurezza informatica. Il corso \\u00e8 pertanto pensato come percorso triennale al fine di formare nel pi\\u00f9 breve tempo possibile personale tecnico specializzato immediatamente impiegabile nel settore della cybersecurity.\",\"nome\":\"Ingegneria Informatica Cybersecurity Sede di Nola\",\"giorni\":[{\"giorno\":\"Luned\\u00ec\",\"orari\":[{\"orario\":\"10:00-13:00\",\"contenuto\":\"Fisica Generale\"},{\"orario\":\"14:00-17:00\",\"contenuto\":\"Programm. Dispositivi Mobili\"}]},{\"giorno\":\"Marted\\u00ec\",\"orari\":[{\"orario\":\"10:00-13:00\",\"contenuto\":\"Architettura Elaboratori\"},{\"orario\":\"14:00-17:00\",\"contenuto\":\"Aspetti Org. Gest. Cybersecurity\"}]},{\"giorno\":\"Mercoled\\u00ec\",\"orari\":[{\"orario\":\"10:00-13:00\",\"contenuto\":\"Aspetti Org. Gest. Cybersecurity\"}]},{\"giorno\":\"Gioved\\u00ec\",\"orari\":[{\"orario\":\"10:00-13:00\",\"contenuto\":\"Architettura Elaboratori\"}]},{\"giorno\":\"Venerd\\u00ec\",\"orari\":[{\"orario\":\"10:00-13:00\",\"contenuto\":\"Fisica Generale\"},{\"orario\":\"14:00-17:00\",\"contenuto\":\"Programm. Dispositivi Mobili\"}]}]}]},{\"id\":\"1\",\"nome\":\"Corsi di Laurea Magistrale\",\"sottocategorie\":[{\"id\":\"4\",\"descrizione\":\"L\\u2019elevata specializzazione del Corso, nell\\u2019ambito dell\\u2019amministrazione, finanza e controllo d\\u2019azienda, consente di acquisire una formazione trasversale e dal respiro internazionale. L\\u2019alta qualificazione nel settore della consulenza professionale garantisce una forte competitivit\\u00e0 spendibile nel mercato del lavoro.\",\"nome\":\"Amministrazione Finanza Consulenza Aziendale\",\"giorni\":[{\"giorno\":\"Luned\\u00ec\",\"orari\":[{\"orario\":\"09:00-11:00\",\"contenuto\":\"Materia 1\"},{\"orario\":\"11:00-13:00\",\"contenuto\":\"Materia 2\"},{\"orario\":\"14:00-16:00\",\"contenuto\":\"Materia 3\"},{\"orario\":\"16:00-18:00\",\"contenuto\":\"Materia 4\"}]},{\"giorno\":\"Marted\\u00ec\",\"orari\":[{\"orario\":\"09:00-11:00\",\"contenuto\":\"Materia 5\"},{\"orario\":\"11:00-13:00\",\"contenuto\":\"Materia 6\"},{\"orario\":\"14:00-16:00\",\"contenuto\":\"Materia 7\"},{\"orario\":\"16:00-18:00\",\"contenuto\":\"Materia 8\"}]}]}]}]}";
             dati_orarilezioni=dati_orarilezioni.replace("\n","");
             setDataInSharedPreferences("dati_orarilezioni",dati_orarilezioni);
@@ -202,7 +202,7 @@ class OrariLezioniFragment : Fragment() {
                     // positive button text and action
                     .setPositiveButton("CHIUDI", DialogInterface.OnClickListener {
                             dialog, id -> dialog.cancel()
-                    })
+                    });
                 // negative button text and action
                 /*.setNegativeButton("Cancel", DialogInterface.OnClickListener {
                         dialog, id -> dialog.cancel()
@@ -213,7 +213,7 @@ class OrariLezioniFragment : Fragment() {
                 alert.setTitle(listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(childPosition));
                 // show alert dialog
                 alert.show();
-                println(testoTemp);
+                //println(testoTemp);
                 false
             }
             /*expandableListView!!.setOnGroupExpandListener { groupPosition ->
@@ -276,12 +276,13 @@ class OrariLezioniFragment : Fragment() {
             else {
                 Toast.makeText(context, "Inizio collegamento con il Server", Toast.LENGTH_SHORT).show();
                 //binding.textHome.text = "Caricamento in corso....attendere";
-                binding.buttonLoadDatiOrarilezioni.text = "Attendere...";
+                //binding.buttonLoadDatiOrarilezioni.text = "Attendere...";
                 dati_orarilezioni = URL("https://uniparthenope.piattaformasicura.com/test1.php").readText();
                 dati_orarilezioni = dati_orarilezioni.replace("\n", "");
                 setDataInSharedPreferences("dati_orarilezioni", dati_orarilezioni);
                 reloadDataOnList();
-                binding.buttonLoadDatiOrarilezioni.text = "Sincronizza dati";
+                //binding.buttonLoadDatiOrarilezioni.text = "Sincronizza dati";
+                Toast.makeText(context, "Fine collegamento con il Server", Toast.LENGTH_SHORT).show();
             }
         }
     }

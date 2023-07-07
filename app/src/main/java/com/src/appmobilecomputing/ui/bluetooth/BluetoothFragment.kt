@@ -159,7 +159,7 @@ class BluetoothFragment : Fragment() {
                         Toast.makeText(context, "Errore Bluetooth non attivato, attivare Bluetooth", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(context, "Inizio ricerca dispositivi Bluetooth", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Inizio ricerca dispositivi bluetooth", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(context, "Bluetooth list inizio", Toast.LENGTH_SHORT).show();
                         bluetoothDevices.clear();
                         //Ricerca tutti i device che sono stati agganciati precedentemente
@@ -174,7 +174,7 @@ class BluetoothFragment : Fragment() {
                         }
                         //val bluetoothFilter = IntentFilter(BluetoothDevice.ACTION_FOUND);
                         //context?.registerReceiver(bluetoothBroadcastReceiver, bluetoothFilter);
-                        if (bluetoothDevices==null || bluetoothDevices.size <= 0) {
+                        /*if (bluetoothDevices==null || bluetoothDevices.size <= 0) {
                             //Toast.makeText(context, "Bluetooth list vuota", Toast.LENGTH_SHORT).show();
                             //println("Bluetooth list vuota");
                             bluetoothDevices.add("Nessun dispositivo associato trovato");
@@ -182,7 +182,7 @@ class BluetoothFragment : Fragment() {
                         else {
                             //println("Bluetooth list non vuota");
                             //Toast.makeText(context, "Bluetooth list non vuota "+bluetoothDevices.size, Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                         bluetoothArrayAdapter.notifyDataSetChanged();
 
                         //Ricerca tutti i device nuovi
@@ -194,7 +194,10 @@ class BluetoothFragment : Fragment() {
                                         val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                                         val deviceName = device!!.name;
                                         val deviceHardwareAddress = device?.address;
-                                        if (deviceName!=null) {
+                                        if (
+                                            deviceName!=null &&
+                                            !bluetoothDevices.contains("Nuovo: " + deviceName)
+                                        ) {
                                             println("Bluetooth Nuovo dispositivo = " + deviceName);
                                             bluetoothDevices.add("Nuovo: " + deviceName);
                                             Toast.makeText(
@@ -205,13 +208,20 @@ class BluetoothFragment : Fragment() {
                                             bluetoothArrayAdapter.notifyDataSetChanged();
                                         }
                                     }
+                                    /*BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+                                        Toast.makeText(
+                                            context,
+                                            "Fine ricerca nuovi dispositivi bluetooth",
+                                            Toast.LENGTH_SHORT
+                                        ).show();
+                                    }*/
                                 }
                             }
                         }
                         var bluetoothFilter = IntentFilter();
                         bluetoothFilter.addAction(BluetoothDevice.ACTION_FOUND);
-                        bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-                        bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+                        //bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+                        //bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
                         context?.registerReceiver(bluetoothBroadcastReceiver, bluetoothFilter);
                         bluetoothAdapter.startDiscovery();
                     }

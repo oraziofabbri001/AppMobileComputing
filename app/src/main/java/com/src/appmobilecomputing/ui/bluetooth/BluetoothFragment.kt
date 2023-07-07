@@ -1,6 +1,5 @@
 package com.src.appmobilecomputing.ui.bluetooth
 
-import android.R
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
@@ -23,7 +22,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.src.appmobilecomputing.MainActivity
 import com.src.appmobilecomputing.databinding.FragmentBluetoothBinding
 import com.src.appmobilecomputing.databinding.ListviewitemBluetoothBinding
 
@@ -164,59 +162,58 @@ class BluetoothFragment : Fragment() {
                         Toast.makeText(context, "Inizio ricerca dispositivi Bluetooth", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(context, "Bluetooth list inizio", Toast.LENGTH_SHORT).show();
                         bluetoothDevices.clear();
-                        //Ricerca tutti i devic che sono stati agganciati precedentemente
-                        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices;
-                        pairedDevices?.forEach { bluetoothDevice ->
+                        //Ricerca tutti i device che sono stati agganciati precedentemente
+                        val bondedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices;
+                        bondedDevices?.forEach { bluetoothDevice ->
                             val deviceName = bluetoothDevice.name;
                             val deviceHardwareAddress = bluetoothDevice.address;
                             println("Bluetooth paired name = " + deviceName);
-                            bluetoothDevices.add("Paired:"+deviceName);
+                            bluetoothDevices.add("Accoppiato: "+deviceName);
                             //println("bluetoothDevices.size = "+bluetoothDevices.size);
                             //Toast.makeText(context, deviceName, Toast.LENGTH_SHORT).show();
                         }
-                        //Toast.makeText(context, "Bluetooth list fine", Toast.LENGTH_SHORT).show();
+                        //val bluetoothFilter = IntentFilter(BluetoothDevice.ACTION_FOUND);
+                        //context?.registerReceiver(bluetoothBroadcastReceiver, bluetoothFilter);
+                        if (bluetoothDevices==null || bluetoothDevices.size <= 0) {
+                            //Toast.makeText(context, "Bluetooth list vuota", Toast.LENGTH_SHORT).show();
+                            //println("Bluetooth list vuota");
+                            bluetoothDevices.add("Nessun dispositivo associato trovato");
+                        }
+                        else {
+                            //println("Bluetooth list non vuota");
+                            //Toast.makeText(context, "Bluetooth list non vuota "+bluetoothDevices.size, Toast.LENGTH_SHORT).show();
+                        }
+                        bluetoothArrayAdapter.notifyDataSetChanged();
+
                         //Ricerca tutti i device nuovi
-                        //println("Bluetooth new 1");
                         val bluetoothBroadcastReceiver = object : BroadcastReceiver() {
                             override fun onReceive(context: Context, intent: Intent) {
-                                println("Bluetooth new 2");
                                 val action: String = intent.action as String;
                                 when(action) {
                                     BluetoothDevice.ACTION_FOUND -> {
                                         val device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                                         val deviceName = device!!.name;
                                         val deviceHardwareAddress = device?.address;
-                                        println("Bluetooth new name = " + deviceName);
-                                        bluetoothDevices.add("New:"+deviceName);
-                                        Toast.makeText(context, "New device "+deviceName, Toast.LENGTH_SHORT).show();
-                                        bluetoothArrayAdapter.notifyDataSetChanged();
+                                        if (deviceName!=null) {
+                                            println("Bluetooth Nuovo dispositivo = " + deviceName);
+                                            bluetoothDevices.add("Nuovo: " + deviceName);
+                                            Toast.makeText(
+                                                context,
+                                                "Nuovo: " + deviceName,
+                                                Toast.LENGTH_SHORT
+                                            ).show();
+                                            bluetoothArrayAdapter.notifyDataSetChanged();
+                                        }
                                     }
                                 }
                             }
                         }
-                        val bluetoothFilter = IntentFilter(BluetoothDevice.ACTION_FOUND);
+                        var bluetoothFilter = IntentFilter();
+                        bluetoothFilter.addAction(BluetoothDevice.ACTION_FOUND);
+                        bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+                        bluetoothFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
                         context?.registerReceiver(bluetoothBroadcastReceiver, bluetoothFilter);
-                        if (bluetoothDevices==null || bluetoothDevices.size <= 0) {
-                            //Toast.makeText(context, "Bluetooth list vuota", Toast.LENGTH_SHORT).show();
-                            //println("Bluetooth list vuota");
-                            bluetoothDevices.add("No devise found");
-                        }
-                        else {
-                            //println("Bluetooth list non vuota");
-                            //Toast.makeText(context, "Bluetooth list non vuota "+bluetoothDevices.size, Toast.LENGTH_SHORT).show();
-                        }
-                        //bluetoothDevices.add("Device di test");
-                        //println("bluetoothDevices.size prima adaper = "+bluetoothDevices.size);
-
-                        /*val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.activity_list_item,
-                            bluetoothDevices
-                        )
-                        binding.listviewBluetooth.adapter = arrayAdapter;*/
-
-                        //println("bluetoothDevices.size dopo adaper = "+bluetoothDevices.size);
-                        bluetoothArrayAdapter.notifyDataSetChanged();
+                        bluetoothAdapter.startDiscovery();
                     }
                 }
 
